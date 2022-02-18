@@ -5,9 +5,21 @@
 	<head>
 		<title>Bit Lounge</title>
 		<meta http-equiv="Content-Type" content="test/html; charset=UTF-8"/>
+		<!--내부 css, 페이지 css라고도 한다.-->
+		<style>
+			h1{
+				color:green;
+			}
+		</style>
+		<!--외부 css, link-->
+		<link rel="stylesheet" href="./css/style.css"/>
 	</head>
 	<body>
-		<h1>Welcome to the Lounge</h1>
+		
+		<h1 style="color:red; background-color:grey">Welcome to the Lounge</h1>
+		<!-- inline style
+			HTML 요소에 직접 스타일 부여
+			웹 표준 준수에는 가장 부적합-->
 		<img src="./images/drinks.gif"/>
 		<img src="/ex01/images/drinks.gif"/>
 		<p>라운지에서 시원한 <a href="elixir.html">건강 음료</a>, 
@@ -18,6 +30,7 @@
 
 
 		<p>3층에서 바로 찾을 수 있어요.</p>
-		<a href="tabel.html">테이블 연결</a>
+		<p><a href="tabel.html">테이블 연결</a></p>
+		<p><a href="form.html">멤버십 가입</a></p>
 	</body>
 </html>

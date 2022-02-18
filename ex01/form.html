@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>멤버십 가입</title>
+    <style>
+        /*속성 선택자 : 특정 속성을 포함 여부
+        type 속성을 갖은 모든 태그*/
+        * [type]{
+            background-color: beige;
+        }
+
+        input[type="text"]{
+            background-color: lightgreen;
+        }
+
+        input[type="password"]{
+            background-color: lightblue;
+        }
+        
+        /*상태 선택자*/
+        input:enabled{  /*선택 가능한 입력 양식만 설정*/
+            background-color: white;
+        }
+
+        input:disabled{  /*선택 가능한 입력 양식만 설정*/
+            background-color: grey;
+        }
+
+        input:focus{ /*사용 중인 색*/
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <h1>멤버십 가입</h1>
+    <!-- 중요속성 : action - 처리할 페이지
+                    method = 요청방식(get,post)-->
+    <form name="registerForm">
+        <fieldset> <!-- 입력 양식 그룹-->
+            <legend>가입 양식</legend>  <!-- 박스형 테두리에 이름-->
+              
+            <!-- 이름을 클릭해도 입력 가능, 
+                name : 서버로 전송될 때 파라미터명
+                id : 해당 페이지 내에서 요소를 제어할 용도
+                input type : password : 데이터가 숨김표시된다.
+                disabled : 입력불가상태
+
+            -->
+            <label for="userid">아이디</label>
+            <input type="text" name="userid" id="userid"/> 
+            <br/>
+            
+            <label for="password">비밀번호</label>
+            <input type="password" name="password" id="password"/>
+            <br/>
+            
+            <label for="code">추천 코드</label>
+            <input type="text" name="code" id="code" disabled/>
+            <br/>
+            
+            <label>성별</label>
+            <input type="radio" name="sex" value="male">남성
+            <input type="radio" name="sex" value="female">여성
+            <br />
+
+            <label>선호 음료</label>
+            <input type="checkbox" name="favorite" value="A">아메리카노
+            <input type="checkbox" name="favorite" value="L">라떼
+            <input type="checkbox" name="favorite" value="T">차
+                <!-- checkbox는 name이 동일하면 문자열 배열로 전송한다.-->    
+            <br />
+
+            <label>통신사</label>
+            <select name="telecom">  <!-- 전송될 데이터 이름-->
+                <!-- 전송될 데이터, 위 name으로 전송되기 때문에 
+                name 속성은 없다.-->
+                <option value="S">SKT</option>
+                <option value="K">KT</option>
+                <option value="L">LGT</option>
+                <option value="E">기타</option>
+            </select>
+            <br />
+
+            <input type="submit" value="가입"/> <!--서버로 데이터 전송-->
+            <input type="reset" value="다시작성"/><!-- 가입폼 초기화-->
+        </fieldset>
+    </form>
+</body>
+</html>
