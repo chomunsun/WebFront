@@ -68,7 +68,21 @@
       .menu > li:last-child{
         background-color: rgba(255,0,0,0.3);
       }
-      
+
+      .menu > li{
+        float:left;
+        list-style-type: none;  /*불릿 모양 없애기*/
+        width:100px;
+        height:30px;
+        margin-right: 10px;
+        text-align: center;
+        margin-bottom: 5px;
+        display : inline-block;
+      }
+
+      article{
+        clear: both;   /*아티클이 시작되면 float 끊기*/
+      }
       
       /* border 속성         
         border: 3px ridge grey;
@@ -94,7 +108,31 @@
         border: 3px grey;
 
       }
+      /*display vs visibility*/
+      .seller{
+        /*display : 공간 점유 방식 결정
+        none, block, inline, inline-block*/
+        /* display: none; */
+        /* visibility : 화면 표시 여부 결정 -> 공간 점유는 그대로 */
+        /* visibility: hidden; */
+      }
 
+      /*background 속성*/
+      body{
+        /* background-image: url("./images/Landscape.jpg");
+        background-repeat: no-repeat ;
+        background-attachment: fixed;
+        background-position: bottom;
+        background-size: 100%; 
+        
+        일괄 적용은 순서가 중요하다.*/
+        /* background: url("./images/Landscape.jpg") no-repeat fixed bottom /100% lightgrey; */
+
+      }
+      .beverage > img{
+        float:left;
+        margin-right: 20px;
+      }
     </style>
 
   </head>

@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+
+body{
+    font-family: "맑은 고딕", 돋움;
+    font-size: 0.75em;
+    color:#333;
+}
+
+li{
+    line-height: 1.8em;
+    padding-left: 15px;
+    background: url(../../practices/images/bullet11.jpg) no-repeat 0 8px;
+
+}
+
+ul{
+    margin-left: 20px;
+    list-style: none;
+}
+
