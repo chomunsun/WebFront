@@ -7,9 +7,17 @@
 *
 */
 
-for(let i ; i<=9 ; i++){
-    for(let j; j <=9 ; j++){}
+for(let i=2 ; i<=9 ; i++){
+    for(let j=1; j <=9 ; j++){
+        console.log(i +'*'+j+'='+i*j)
+    }
+}
 
+for(let i =0; i<5 ; i++){
+    for(let j =5; i<j; j--){
+        process.stdout.write('*')
+    }
+    console.log()
 }
 
 
