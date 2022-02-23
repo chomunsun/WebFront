@@ -33,12 +33,82 @@
             background-color: orange;
         }
     </style>
+    <script>
+        //form 검증
+        function checkForm(){
+            // form에 접근 -> name 속성 이용
+            let frm = document.registerForm; // name = Form의 이름 이걸 frm이 받는다.
+            console.log(frm);
+            // id check
+            if(!checkId(frm.userid.value)){
+                // 아이디 검증 실패하면 다시 id 필드에 포커스 + faluse 리턴
+                frm.userid.focus();
+                return false;
+            }
+            if(!checkPassword(frm.password.value)){
+                frm.password.focus();  // 패스워드 검증 실패하면 Password 필드에 포커스
+                return false;
+            }
+            if (!checkFavorite(frm)){
+                // 선호 음료 검증 실패
+                return false;
+            }
+            checkTelecom(frm)
+            
+            return true;
+        }
+        function checkId(userid){
+            let bSuccess = true;
+            // 아이디 길이가 4~10자 사이만 성공
+            if (userid.trim().length < 4|| userid.trim.length>10){
+                //검증 실패
+                bSuccess = false;
+                alert("아이디는 4자 이상 10자 이하")
+            }
+            // 필요한 추가 검증 절차를 수행
+            return bSuccess;
+        }
+        function checkPassword(password){
+            let bSuccess = true;
+            if (password.trim().length <4 || password.trim().length>10){
+                bSuccess = false;
+                alert("비밀번호는 4자 이상 10자 이하")
+            }
+            return bSuccess;
+        }
+        function checkFavorite(frm){
+            let count =0;
+            for(let i =0; i < frm.favorite.length; i++){
+                let cb = frm.favorite[i];
+                console.log(cb)
+                if(cb.checked){
+                    console.log(cb.value, "is checked")
+                    count++;
+                }
+                
+            }
+            console.log("선택된 음료 개수",count)
+            if (count ==0){
+                alert("최소 1개 음료를 선택해 주세요");
+            }
+            return count!=0
+        }
+        function checkTelecom(frm){
+            let selectedIndex = frm.telecom.selectedIndex; //선택된 옵션의 인덱스 받기
+            console.log("선택된 옵션의 인덱스:", selectedIndex)
+            let option = frm.telecom[selectedIndex];
+            console.log("선택된 옵션의 값:", option.value)
+        }
+
+    </script>
 </head>
 <body>
     <h1>멤버십 가입</h1>
     <!-- 중요속성 : action - 처리할 페이지
-                    method = 요청방식(get,post)-->
-    <form name="registerForm">
+                    method = 요청방식(get,post)
+        onsubmit = return값이 true면 전송해주기, false면 전송 중지
+        에러가 많이 난다.-->
+    <form name="registerForm" method="post" onsubmit="return checkForm()">
         <fieldset> <!-- 입력 양식 그룹-->
             <legend>가입 양식</legend>  <!-- 박스형 테두리에 이름-->
               
