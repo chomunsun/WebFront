@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>iPhones jQuery</title>
+    <style>
+        #product-info img.selected {
+            width: 225px;
+            height: 265px;
+            float: left;
+            border: 1px solid lightslategrey;
+            margin: 5px;
+        }
+
+        #product-list li {
+            list-style-type: none;
+            border: 1px solid lightslategrey;
+            margin: 5px;
+            float: left;
+        }
+
+        #product-list li img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+    <!-- jQuery 포함시키기 -->
+    <script src="./scripts/jquery-3.6.0.js"></script>
+    
+</head>
+
+<body><!-- 선택-->
+    <div id="product-info">
+        <img id="main-image"  
+        src="images/iphone-xs.jpeg" 
+        class="selected" 
+        title="iPhones XS">
+        <h2>iPhone Xs</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.</p>
+        <h3>Products</h3>
+        <ul id="product-list">
+            <li><img class="sub-image" src="./images/iphone-xs.jpeg" title="iPhone XS"
+                data-colo="red"></li>
+            <li><img class="sub-image" src="./images/iphone-xr.jpeg" title="iPhone XR"
+                data-colo="green"></li>
+            <li><img class="sub-image" src="./images/iphone8.jpeg" title="iPhone 8"
+                data-colo="blue"></li>
+            <li><img class="sub-image" src="./images/ipad-mini.jpeg" title="iPad Mini"
+                data-colo="purple"></li>
+        </ul>
+        <input type="text" id="keyword" /><button id="btn-search">검색</button>
+    </div>
+</body>
+<script >
+    function testAttribute(){
+    // id가 main-image인 이미지를 가져와서 속성을 확인해보기
+    //let obj =document.getElementById("main-image");
+    let obj = $("#main-image"); //배열이 반환된다. .length, 인덱스 접근 가능
+    console.log("#main-iamge",obj);
+
+    // 요소가 가진 모든 속성 확인
+    //console.log(obj.getAttributeNames());
+    console.log(obj[0].getAttributeNames());
+
+    // title 속성 출력   .attr로 할 수 있다.
+    //console.log(obj.getAttribute("title"));
+    console.log(obj.attr("title"));
+    // title 속성 변경
+    //obj.setAttribute("title",
+    //    "사진:" + obj.getAttributeNames("title"));
+    obj.attr("title","사진:"+obj.attr("title"));
+
+    // 하단 Products 이미지들도 title 속성 변경
+    // let subs = document.getElementsByClassName('sub-image')
+    let subs = $(".sub-image")
+    console.log(".sub-image:", subs)
+    // html 컬렉션
+    for(let i = 0; i < subs.length ; i++){
+        //subs[i].setAttribute('title',
+        //'사진:' + subs[i].getAttribute('title'));
+        $(subs[i]).attr("title","사진:"+$(subs[i]).attr("title"))
+    }
+    // jQuery는 For문을 돌리지 않아도 된다.  내부의 HTMLelement를 jQuery로 재포장
+    // 내부 요소들은 jQuery 상태가 아니기 때문에 재포장한 것
+
+}
+testAttribute();
+
+//이벤트 붙이기
+// #main-image를 클릭 -> 이벤트 객체 console 출력  // onclick을 쓸 것
+//      title 속성 -> alert로 띄워 보기
+// 첫번째 방법은 무시
+document.getElementById("main-image").onclick = function(event){
+    console.log('event:',event);
+    console.log("이벤트 발생 객체:", event.target);
+    // event 발생 객체의 title 속성을 alert 창으로 띄워보기
+    alert(event.target.title);
+}    
+
+// 이벤트 부착 3번째 방법, 가장 추천하는 방법이다!!
+// window.addEventListener("load", function(event){  
+    // load : 브라우저 이벤트 : HTML 다 읽어들이기 모두 메모리에 올린다는것
+    // 브라우저의 load 이벤트 -> 초기화 코드 해주면 된다. 안쪽의 메모리가 모두 로드되었다는 것, 절대 실패없다.
+   //문서의 로드 ready 자체가 'load'를 의미하기 때문에 필요없음
+   $(document).ready(function(event){ 
+    //document.getElementById("keyword").addEventListener("keyup",function(event){
+    $("#keyword").on('keyup', function(event){
+        console.log("Event:", event);
+        console.log("이벤트 발생 객체:", event.target);
+    
+    // keypress가 발생하면 이 함수 실행
+    let keyword = event.target.value;
+    console.log(keyword);
+    
+    //let btn=document.getElementById("btn-search").innerText = keyword + ":검색"
+    // innerText : 콘텐츠를 텍스트로 입력
+    // innerHTML : 콘텐츠를 HTML로 입력한다.
+    let btn=$("#btn-search").text($(event.target).val()+": 검색");
+    // jquery의 .text()는 .innertext
+    //          .html()는 .innerhtml이다.
+});
+
+// 하단의 prudoucts 이미지 클릭하면 해당 요소들에 클릭 이벤트를 넣어준다.  #main-image
+// #product-info h2로 이동
+
+//let products = document.getElementsByClassName('sub-image');
+let products = $('.sub-image');
+console.log('sub-image:', products); //HTML collection : 배열이다. 세부접근 : index
+// jQuery는 검색된 요소가 여러개라 하더라도 루프를 돌릴 필요가 없다.
+// html 컬렉션을 다룰 때는 on("click", function) << 알아서 배열요소에 접근한다.
+/*
+for(let i=0; i<products.length; i++){
+    let product = products[i]
+    console.log("product:",product)
+
+    // product.addEventListener("click", function(event){
+    product.on('click',function(event){
+        let obj = event.target; // 이벤트 발생 객체
+        //let mainImage = document.getElementById("main-image");  //data-color를 뽑아야함
+        let mainImage = $("#main-image")
+        mainImage.src = obj.src;
+        mainImage.title = obj.title;
+        
+        // 클릭한 요소의 data-color 속성
+        // let color = obj.getAttribute("data-colo");
+        let color = obj.attr('data-colo')
+        //원래 html에서 정해진 값말고 사용자 정의데이터는 접두어를 data- 붙여두게 되어있다.
+        // let titleTag = document.querySelector('#product-info > h2');
+        let titleTag = $("#product-info > h2")
+        // 내부 콘텐츠에 접근하는걸 콘텐츠를 변수로 두지 않아도 할 수 있다.
+        titleTag.innerText = obj.title;
+        // 동적으로 스타일 변경
+        // HTML ELEMENT의 style 객체를 이용할 수 있다.
+        titleTag.style.color = color;
+    })
+}*/
+    products.on("click",function(event){
+        let obj = $(event.target);
+        let mainImage = $('#main-image');
+        // 여러 속성 변경 -> attr의 javascript 객체를 전달하면 된다.
+        mainImage.attr({
+            src:obj.attr('src'),
+            title:obj.attr('title')
+        })
+    let titleTag = $("#product-info >h2")
+    titleTag.text(obj.attr('title'));
+    titleTag.css("color",obj.data('colo'));
+    })
+ 
+                //data-color다, data() : 사용자 정의속성 불러오기
+});
+</script>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax Test</title>
+    <!-- jQuery -->
+    <script src="./scripts/jquery-3.6.0.js"></script>
+    <style>
+        .poster{
+            width:150px
+        }
+    </style>
+
+
+</head>
+<body>
+    <button id="btnCallSnippet">HTML 조각 불러오기</button>
+    <button id="btnCallMovies">영화 목록 불러오기</button>
+
+    <!-- html 조각 불러오기 결과-->
+    <div id="info"></div>
+
+    <!-- #btnCallMovies를 누르면 불러오는 결과 테이블-->
+    <table id="list" border="1" width="640">
+
+    </table>
+</body>
+<script>
+    // 버튼 누르면 call 되게 하는 스크립트 만들기
+    $(document).ready(function(event){
+        //btnCallSnippet 버튼읠 click 이벤트 추가
+        $('#btnCallSnippet').on('click',function(event){
+            // Ajax를 수행
+            $.ajax({
+                url : 'snippet.html',   //요청 url
+                type : 'GET',           //요청 방식
+                dataType : 'text',      //서버에서 전달되는 데이터 타입
+                success : function(response){
+                    // 요청 성공시 수행되는 콜백 함수
+                    console.log(response)
+                    $("#info").html(response)
+                },
+                error : function(request, status, error){
+                    console.error("요청 정보:", request);
+                    console.error("status:", status);
+                    console.error("Error:", error);
+                }
+            })
+        })
+        $('#btnCallMovies').on('click',function(event){
+            $.ajax({
+                url : 'http://localhost:3000/movies',
+                type : 'GET',
+                dataType : 'json',
+                success : function(response){
+                    // 요청 성공시 수행되는 콜백 함수  성공하면 응답알려준다.
+                    console.log(response)
+                    //$("#list").html(response) // 총 21개 데이터, --> movies 안에 데이터가 필요한 데이터
+                    //json 내부의 movies 배열
+                    let movies = response.movies;
+                    for(let i=0; i<movies.length ; i++){
+                        // 개별 영화 정보
+                        let movie = movies[i];
+                        console.log("movie:", movie);
+                        // 개별 영화 정보를 바탕으로 tr 생성
+                        let title = movie.title;
+                        let director = movie.director;
+                        let movieId = movie.id;
+
+                        let poster = 'http://localhost:3000/images/' + movie.image;
+                        let tr = $("<tr>");
+                        // tr 생성하고 내부 컨텐츠 채우기 html 여러줄 문자열
+                        let htmlString = `
+                            <td><img class="poster" src="${poster}"></td>
+                            <td>${title}</td>
+                            <td>${director}</td>;`
+                        tr.html(htmlString);
+                        // 만들어진 tr을 테이블에 추가
+                        $("#list").append(tr)
+                    }
+                },
+                error : function(request, status, error){// 요청 상태 에러
+                    console.error("요청 정보:", request);
+                    console.error("status:", status);
+                    console.error("Error:", error);
+                }
+            })
+        })
+    })
+</script>
+</html>

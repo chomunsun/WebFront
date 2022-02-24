@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+        <title>JS Cart</title>
+        <style>
+            #list li {
+                height: 30px;
+            }
+        </style>
+        <script src="./scripts/jquery-3.6.0.js"></script>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Shopping List</h1>
+        </div>
+        <div id="cart-list">
+            <ul id="list">
+                <li>무</li>
+                <li>배추</li>
+                <li>쪽파</li>
+                <li>고춧가루</li>
+            </ul>
+        </div>
+        <div id="cart-input">
+            <input id="item"><button id="btn-add">추가</button>
+        </div>
+        <div id="footer">
+            &copy;Bit Academy
+        </div>
+    </body>
+    <script>
+        function addItem(){
+        // let itemInput = document.getElementById('item');
+        let itemInput = $("#item")
+        // let item = itemInput.value.trim(); //빈칸 제거
+        let item = itemInput.val().trim()   // jquery : value : val()
+
+        if(item.length>0){
+            console.log("추가할 아이템:", item)
+            // let container = document.getElementById('list');//추가할 부모 id = list
+            let container = $("#list")
+            // let itemNode = document.createElement("li") //추가할 위치를 선택해야한다.
+            // itemNode.innerText = item;
+            // createElement : $("<태그명>")
+            let itemNode = $("<li>").text(item);
+            // 안쪽에 도구 상자를 추가
+            // let toolbar = document.createElement('div')
+            // toolbar.style.display = 'inline';
+            let toolbar = $("<div>").css("display", "inline"); //stype : css
+            // let delBtn = document.createElement("button")
+            // delBtn.innerText = "삭제";
+            // delBtn.style.cssFloat = "right";
+            let delBtn = $("<button>").text('삭제').css("float","right")
+
+            // toolbar.appendschild를 넣어서 추가하면 된다.
+            // toolbar.appendChild(delBtn);
+            toolbar.append(delBtn)
+            // itemNode.appendChild(toolbar);
+            itemNode.append(toolbar)
+            // container.appendChild(itemNode);
+            container.append(itemNode)
+            // 또는 부모를 찾아서 부모를 기준으로 자식을 추가할 수도 있지만,
+            // JQ는 자식이 부모한테 붙을 수 있다.
+            // itemNode.appendTo(container) << 이것도 가능!
+
+            // delBtn.addEventListener('click',function(event){
+            delBtn.on("click",function(event){
+                console.log('이벤트 발생 객체:', event.target)
+                // 삭제할 노드
+                let removeItem = event.target.parentNode.parentNode; 
+                // 버튼 누르면 li가 삭제되어야 하니까 parentNode를 쓴 것
+                removeItem.remove()  //부모를 찾지 않아도 노드를 삭제할 수 있다.
+                // console.log('삭제할 노드:', removeItem)
+                // let parent = removeItem.parentNode; //부모
+                // // parent.removeChild(removeItem); // 명령어. li가 removeItem, 그의 parent ul로부터 remove item li 삭제
+                // parent.remove(removeItem)
+            })
+
+            // 입력상자 초기화, 포커스
+            // itemInput.value = "";
+            itemInput.val("");
+            itemInput.focus();
+            }
+        }
+// 리스트 id cart-list - list - li들
+// 버튼 id item - btn-add 추가
+        // window.addEventListener('load',function(event){  //onload -> 초기화 
+        //     // 쇼핑 목록 초기화
+        //     let cartItems = document.querySelectorAll('#list > li')
+        //     console.log('items:',cartItems)
+        //     for (let i=0 ; i<cartItems.length ; i++){
+        //         cartItems[i].parentNode.removeChild(cartItems[i])
+        //     }
+            
+        //     // 버튼 클릭 이벤트 만들기
+        //     document.getElementById('btn-add').addEventListener('click', addItem);  //funtion을 additem
+        // })
+        $(document).ready(function(event){
+            let cartItems = $('#list > li')
+            console.log('items:',cartItems)
+            for(let i=0; i<cartItems.length;i++){
+                let item = cartItems[i];
+                //DoM tree에서 각각의 item 제거  parent 잡아서 삭제 jQ에서는 그냥
+                item.remove()
+            }
+            // #list > li -> addItem을 click 이벤트로 부착 jQ는 루프를 돌리지 않아도 한번에 부착할 수 있다.
+            $("#btn-add").on('click',addItem)
+        })
+    </script>
+</html>
